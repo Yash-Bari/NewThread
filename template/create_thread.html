@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #121212; /* Dark background color */
+      color: #f2f2f2; /* Light text color */
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    #background-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      background-size: cover;
+      background-position: center;
+      animation: fadeIn 1s;
+    }
+
+    .container {
+      max-width: 400px;
+      width: 90%;
+      padding: 40px;
+      background-color: rgba(0, 0, 0, 0.8); /* Transparent dark background */
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+      border: 2px solid #ec92f4; /* Dark border */
+      animation: slideInUp 1s, fadeIn 1s;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #f2f2f2; /* Light text color */
+      animation: fadeIn 1s;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      animation: fadeIn 1s;
+    }
+
+    input[type="text"],
+    input[type="password"] {
+      width: 100%;
+      max-width: 300px;
+      padding: 10px;
+      margin-bottom: 20px;
+      border: none;
+      border-radius: 4px;
+      background-color: #1f1f1f; /* Dark input box background color */
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      color: #f2f2f2; /* Light text color */
+      transition: background-color 0.3s ease, box-shadow 0.3s ease;
+      animation: fadeIn 1s;
+    }
+
+    input[type="text"]:focus,
+    input[type="password"]:focus {
+      background-color: #2f2f2f; /* Slightly lighter input box background color on focus */
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    }
+
+    input[type="submit"] {
+      width: 100%;
+      max-width: 290px;
+      padding: 10px;
+      background-color: #8a41e3;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    input[type="submit"]:hover {
+      background-color: #4b39f0;
+    }
+
+    /* New style for the "Topic List" button */
+    a.button {
+      display: block;
+      text-align: center;
+      margin-top: 10px;
+      color: #ec92f4; /* Light pink color */
+      transition: color 0.3s ease;
+      text-decoration: none;
+    }
+
+    a.button:hover {
+      color: #f2f2f2; /* Light text color on hover */
+    }
+
+    /* Animation */
+    @keyframes slideInUp {
+      from {
+        transform: translateY(50%);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
+    }
+
+  </style>
+</head>
+<body>
+  <div id="background-container"></div>
+  <div class="container">
+    <h1>Create A New Thread</h1>
+    <form method="post">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <input type="submit" value="Create">
+    </form>
+  </div>
+
+  <script>
+    // Function to fetch a random image URL from Unsplash
+    async function getRandomUnsplashImage() {
+      const response = await fetch('https://source.unsplash.com/random/1920x1080');
+      return response.url;
+    }
+
+    // Function to set the background image
+    async function setBackgroundImage() {
+      const imageUrl = await getRandomUnsplashImage();
+      const backgroundContainer = document.getElementById('background-container');
+      backgroundContainer.style.backgroundImage = `url('${imageUrl}')`;
+    }
+
+    // Call the function to set the background image on page load
+    setBackgroundImage();
+  </script>
+</body>
+</html>

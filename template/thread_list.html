@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #1a1a1a; /* Dark background for the dark theme */
+      color: #fff; /* Text color for the dark theme */
+      margin: 0;
+      padding: 0;
+    }
+
+    #background-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      background-image: url('https://source.unsplash.com/1920x1080/?Olympic'); /* Replace with your desired image URL */
+      background-size: cover;
+      background-position: center;
+      animation: fadeIn 1s;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 50px auto;
+      padding: 40px;
+      background-color: rgba(0, 0, 0, 0.6); /* Semi-transparent black background for the cards */
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); /* Semi-transparent box shadow for the cards */
+      animation: fadeIn 1s;
+    }
+
+    a {
+      display: inline-block;
+      margin-right: 10px;
+      color: #ddd; /* Link color for the dark theme */
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+
+    a:hover {
+      color: #fff; /* Link color on hover for the dark theme */
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #fff; /* Text color for headings in the dark theme */
+      font-size: 28px;
+      animation: slideInDown 1s;
+    }
+
+    h2 {
+      margin-bottom: 10px;
+      color: #fff; /* Text color for headings in the dark theme */
+    }
+
+    p {
+      margin-bottom: 10px;
+      color: #ddd; /* Text color for paragraphs in the dark theme */
+    }
+
+    /* Animation */
+    @keyframes slideInDown {
+      from {
+        transform: translateY(-100%);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
+    }
+
+    /* Creative section styling */
+    .thread-section {
+      padding: 20px;
+      background-color: rgba(0, 0, 0, 0.8); /* Semi-transparent black background for the cards */
+      border-radius: 6px;
+      box-shadow: 0 0 5px rgba(0, 0, 0, 0.4); /* Semi-transparent box shadow for the cards */
+      animation: fadeIn 1s;
+      transition: transform 0.3s ease;
+    }
+
+    .thread-section:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 5px 10px rgba(0, 0, 0, 0.6); /* Semi-transparent box shadow on hover for the cards */
+    }
+
+    /* Positioning for the buttons */
+    .button-group {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 20px;
+    }
+
+    .button-group a {
+      margin-right: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div id="background-container"></div>
+  <div class="container">
+    <div class="button-group">
+      {% if user.is_authenticated %}
+        <!-- Show "Create Thread" button only if the user is logged in -->
+        <a href="{% url 'create_thread' %}">Create Thread</a>
+        <a href="{% url 'logout' %}">Logout</a>
+      {% else %}
+        <a href="{% url 'register' %}">Register</a>
+        <a href="{% url 'login' %}">Login</a>
+      {% endif %}
+    </div>
+
+    <h1>Thread List</h1>
+
+    {% for thread in threads %}
+      <div class="thread-section">
+        <h2><a href="{% url 'thread_detail' thread.id %}">{{ thread.title }}</a></h2>
+        <p>Author: {{ thread.author }}</p>
+        <p>Created at: {{ thread.created_at }}</p>
+      </div>
+    {% endfor %}
+  </div>
+
+  <script>
+    // Function to fetch a random image URL from Unsplash
+    async function getRandomUnsplashImage() {
+      const response = await fetch('https://source.unsplash.com/1920x1080/?Olympic');
+      return response.url;
+    }
+
+    // Function to set the background image
+    async function setBackgroundImage() {
+      const imageUrl = await getRandomUnsplashImage();
+      const backgroundContainer = document.getElementById('background-container');
+      backgroundContainer.style.backgroundImage = `url('${imageUrl}')`;
+    }
+
+    // Call the function to set the background image on page load
+    setBackgroundImage();
+  </script>
+</body>
+</html>
