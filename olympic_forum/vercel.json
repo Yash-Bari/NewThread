@@ -1,7 +1,7 @@
 {
   "builds": [{
     "src": "olumpic_forum/wsgi.py",
-    "use": { "maxLambdasize": "15mb", "runtime": "python3.9" }
+    "use": { "maxLambdasize": "", "runtime": "python3.7" }
   }],
   "routes": [
     {
